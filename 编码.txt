@@ -1,0 +1,80 @@
+定义编码
+如果未提供其他编码提示，Python将默认使用ASCII作为标准编码。
+
+要定义源代码编码，必须将魔术注释作为源文件的第一行或第二行放置在源文件中，例如：
+
+＃coding = <编码名称>
+或（使用流行的编辑器认可的格式）：
+
+＃！/ usr / bin / python
+＃-*-编码：<编码名称>-*-
+或者：
+
+＃！/ usr / bin / python
+＃vim：设置fileencoding = <编码名称>：
+更准确地说，第一行或第二行必须与以下正则表达式匹配：
+
+^ [\ t \ f] *＃。*？coding [：=] [\ t] *（[-_。a-zA-Z0-9] +）
+然后，该表达式的第一组被解释为编码名称。如果Python未知编码，则在编译期间会引发错误。包含编码声明的行上不得有任何Python语句。如果第一行匹配，则第二行将被忽略。
+
+为了帮助诸如Windows之类的平台，该平台在Unicode文件的开头添加了Unicode BOM标记，UTF-8签名 \ xef \ xbb \ xbf也将被解释为'utf-8'编码（即使没有魔术编码注释也是如此）给出）。
+
+如果源文件同时使用UTF-8 BOM标记签名和魔术编码注释，则注释的唯一允许编码为'utf-8'。任何其他编码都会导致错误。
+
+例子
+以下是一些示例，用于阐明在Python源文件顶部定义源代码编码的不同样式：
+
+使用解释器二进制文件并使用Emacs样式文件编码注释：
+
+＃！/ usr / bin / python
+＃-*-编码：latin-1-*-
+导入os，sys
+...
+
+＃！/ usr / bin / python
+＃-*-编码：iso-8859-15-*-
+导入os，sys
+...
+
+＃！/ usr / bin / python
+＃-*-编码：ascii-*-
+导入os，sys
+...
+没有解释器行，使用纯文本：
+
+＃此Python文件使用以下编码：utf-8
+导入os，sys
+...
+文本编辑器可能以不同的方式定义文件的编码，例如：
+
+＃！/ usr / local / bin / python
+＃编码：latin-1
+导入os，sys
+...
+没有编码注释，Python的解析器将采用ASCII文本：
+
+＃！/ usr / local / bin / python
+导入os，sys
+...
+编码无效的注释：
+
+缺少“ coding：”前缀：
+
+＃！/ usr / local / bin / python
+＃latin-1
+导入os，sys
+...
+不在第1行或第2行上编码注释
+
+＃！/ usr / local / bin / python
+＃
+＃-*-编码：latin-1-*-
+导入os，sys
+...
+不支持的编码：
+
+＃！/ usr / local / bin / python
+＃-*-编码：utf-42-*-
+导入os，sys
+...
+概念
